@@ -62,3 +62,11 @@ MIT
 ## Contact
 
 For more information, please feel free to contact the repository owner.
+
+## Docker
+
+```
+docker pull python:3.8
+docker build -t oxygen-cs .
+docker run -it --rm --name oxygen-cs oxygen-cs
+```
