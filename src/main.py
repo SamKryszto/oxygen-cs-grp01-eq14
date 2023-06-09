@@ -82,5 +82,9 @@ class Main:
 
 
 if __name__ == "__main__":
-    main = Main()
-    main.start()
+    # main = Main()
+    # main.start()
+
+    while True:
+        print("test")
+        time.sleep(1)
