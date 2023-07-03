@@ -1,0 +1,11 @@
+FROM python:3.8 AS development
+
+RUN pip install pipenv
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN pipenv install --dev
+
+CMD ["pytest", "test.py"]
