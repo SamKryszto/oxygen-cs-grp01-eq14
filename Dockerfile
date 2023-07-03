@@ -6,6 +6,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN pipenv install
+RUN pipenv install --dev
 
 CMD [ "pipenv", "run", "start" ]
