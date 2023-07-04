@@ -7,9 +7,11 @@ services:
     volumes:
       - ".:/usr/src/app"
     networks:
-      - app
+      - network
+    environment:
+      - PYTHONUNBUFFERED=1
 
 networks:
-  app:
+  network:
     name: postgres_network
     external: true
