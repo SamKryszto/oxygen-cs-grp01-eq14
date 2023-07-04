@@ -6,3 +6,10 @@ services:
       - "8000:8000"
     volumes:
       - ".:/usr/src/app"
+    networks:
+      - app
+
+networks:
+  app:
+    name: postgres_network
+    external: true
