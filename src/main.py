@@ -1,8 +1,8 @@
-from signalrcore.hub_connection_builder import HubConnectionBuilder
 import logging
-import requests
 import json
 import time
+from signalrcore.hub_connection_builder import HubConnectionBuilder
+import requests
 
 
 class Main:
@@ -16,7 +16,7 @@ class Main:
         self.DATABASE = None  # Setup your database here
 
     def __del__(self):
-        if self._hub_connection != None:
+        if self._hub_connection is not None:
             self._hub_connection.stop()
 
     def setup(self):
@@ -49,14 +49,16 @@ class Main:
         self._hub_connection.on("ReceiveSensorData", self.onSensorDataReceived)
         self._hub_connection.on_open(lambda: print("||| Connection opened."))
         self._hub_connection.on_close(lambda: print("||| Connection closed."))
-        self._hub_connection.on_error(lambda data: print(f"||| An exception was thrown closed: {data.error}"))
+        self._hub_connection.on_error(
+            lambda data: print(f"||| An exception was thrown closed: {data.error}")
+        )
 
     def onSensorDataReceived(self, data):
         try:
             print(data[0]["date"] + " --> " + data[0]["data"])
             date = data[0]["date"]
             dp = float(data[0]["data"])
-            self.send_temperature_to_fastapi(date, dp)
+            # DNE self.send_temperature_to_fastapi(date, dp)
             self.analyzeDatapoint(date, dp)
         except Exception as err:
             print(err)
@@ -82,5 +84,7 @@ class Main:
 
 
 if __name__ == "__main__":
-    main = Main()
-    main.start()
+    # main = Main()
+    # main.start()
+    while True:
+        print("s")
