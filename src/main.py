@@ -84,7 +84,5 @@ class Main:
 
 
 if __name__ == "__main__":
-    # main = Main()
-    # main.start()
-    while True:
-        print("s")
+    main = Main()
+    main.start()

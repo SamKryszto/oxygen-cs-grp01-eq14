@@ -4,5 +4,12 @@ services:
     build: .
     ports:
       - "8000:8000"
-    volumes:
-      - ".:/usr/src/app"
+    networks:
+      - network
+    environment:
+      - PYTHONUNBUFFERED=1
+
+networks:
+  network:
+    name: postgres_network
+    external: true
