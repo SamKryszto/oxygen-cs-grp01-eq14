@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8 AS development
 
 RUN pip install pipenv
 
@@ -8,4 +8,4 @@ COPY . .
 
 RUN pipenv install --dev
 
-CMD [ "pipenv", "run", "start" ]
+CMD ["pytest", "test.py"]
