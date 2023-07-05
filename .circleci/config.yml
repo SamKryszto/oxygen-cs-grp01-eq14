@@ -1,0 +1,56 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.8
+      - run:
+          name: Run tests
+          command: |
+            docker-compose up -d --build
+            docker-compose exec app pytest
+          when: on_success
+      - run:
+          name: Stop container if tests fail
+          command: docker-compose down
+          when: on_fail
+      - run:
+          name: Run static code analysis
+          command: docker-compose exec app pylint --rcfile=.pylintrc test.py
+          when: on_success
+      - run:
+          name: Format code with Black
+          command: docker-compose exec app black main.py
+          when: on_success
+      - run:
+          name: Execute main.py
+          command: docker-compose exec app python main.py
+          when: on_success
+      - run:
+          name: Use secret
+          command: echo $DOCKERHUB_ID
+          environment:
+            MY_SECRET_VARIABLE: ${{ secrets.DOCKERHUB_ID }}
+      - run:
+          name: Use secret
+          command: echo $DOCKERHUB_PWD
+          environment:
+            MY_SECRET_VARIABLE: ${{ secrets.DOCKERHUB_PWD }}
+      - run:
+          name: Deploy to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_ID" --password-stdin
+            docker-compose push
+          when: on_success
+
+workflows:
+  version: 2.1
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: pipeline-circleCI
