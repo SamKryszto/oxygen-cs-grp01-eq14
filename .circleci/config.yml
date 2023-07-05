@@ -53,4 +53,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: pipeline-circleCI
+              only: circleci-project-setup
