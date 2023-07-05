@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 jobs:
   build:
     docker:
@@ -47,7 +47,7 @@ jobs:
           when: on_success
 
 workflows:
-  version: 2.1
+  version: 2
   build-and-deploy:
     jobs:
       - build:
