@@ -1,50 +1,64 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
       - image: circleci/python:3.8
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.18
+      - run:
+          name: Install pylint and black
+          command: |
+            pip install pylint black
+
+      - run:
+          name: Run pylint locally
+          command: pylint .
+
+      - run:
+          name: Run black locally
+          command: black . --check
+
       - run:
           name: Create network
           command: docker network create postgres_network
+
       - run:
-          name: build test and run
+          name: Build and test
           command: |
             docker build -t oxygen-tests:latest -f Dockerfile.tests .
             docker-compose down
             docker rmi oxygen-tests
+          when: on_success
+
       - run:
           name: Stop container if tests fail
           command: docker-compose down
           when: on_fail
+
       - run:
-          name: build container
+          name: Build container
           command: docker-compose up -d --build
-      - run:
-          name: Run static code analysis
-          command: docker-compose exec app pylint --rcfile=.pylintrc test.py
           when: on_success
-      - run:
-          name: Format code with Black
-          command: docker-compose exec app black main.py
-          when: on_success
+
       - run:
           name: Execute main.py
           command: docker-compose exec app python main.py
           when: on_success
+
       - run:
           name: Use secret
           command: echo $DOCKERHUB_ID
           environment:
             MY_SECRET_VARIABLE: ${{ secrets.DOCKERHUB_ID }}
+          when: on_success
+
       - run:
           name: Use secret
           command: echo $DOCKERHUB_PWD
           environment:
             MY_SECRET_VARIABLE: ${{ secrets.DOCKERHUB_PWD }}
+          when: on_success
+
       - run:
           name: Deploy to Docker Hub
           command: |
