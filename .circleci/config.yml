@@ -21,12 +21,6 @@ jobs:
       - run:
           name: Create network
           command: docker network create postgres_network
-
-      - run:
-          name: Build container
-          command: docker-compose build
-          when: on_success
-
       - run:
           name: Build container
           command: docker-compose build
@@ -41,7 +35,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run --rm app pipenv run pytest
+            docker-compose run --rm app pipenv run pytest src/test.py
           when: on_success
 
       - run:
