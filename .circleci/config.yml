@@ -17,8 +17,7 @@ jobs:
             docker rmi oxygen-tests
       - run:
           name: build container
-          command: |
-            docker-compose up -d --build
+          command: docker-compose up -d --build
       - run:
           name: Stop container if tests fail
           command: docker-compose down
