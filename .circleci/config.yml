@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: Execute main.py
-          command: docker-compose exec app python main.py
+          command: docker-compose exec app python src/main.py
           when: on_success
 
       - run:
