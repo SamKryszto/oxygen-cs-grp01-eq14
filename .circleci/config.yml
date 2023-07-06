@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose up -d && docker-compose exec app pytest
+             docker-compose up -d && docker-compose exec app /bin/sh -c "pipenv run $(pipenv run which pytest)"
           when: on_success
 
       - run:
