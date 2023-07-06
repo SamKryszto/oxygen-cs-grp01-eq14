@@ -43,7 +43,18 @@ jobs:
           name: Deploy to Docker Hub
           command: |
             echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_ID" --password-stdin
-            docker-compose push
+            # Define the repository name and tag
+            oxygen_repo="samkryszto/oxygen"
+            oxygen_tag="latest"
+
+            # Get the image ID for the service
+            image_id=$(docker-compose images -q)
+
+            # Tag the image with the repository and tag
+            docker tag $image_id $oxygen_repo:$oxygen_tag
+
+            # Push the tagged image to Docker Hub
+            docker push $oxygen_repo:$oxygen_tag
           when: on_success
 
 workflows:
