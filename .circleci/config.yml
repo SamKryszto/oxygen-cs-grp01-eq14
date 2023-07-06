@@ -12,7 +12,7 @@ jobs:
 
       - run:
           name: Run pylint locally
-          command: pylint src
+          command: pylint src --rcfile=.pylintrc
 
       - run:
           name: Run black locally
