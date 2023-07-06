@@ -19,6 +19,40 @@ jobs:
             docker system prune --all --force --volumes
 
       - run:
+          name: Use secret API_TOKEN
+          command: echo $TOKEN
+          environment:
+            token: ${{ secrets.TOKEN }}
+          when: on_success
+
+      - run:
+          name: Use secret T_MAX
+          command: echo $T_MAX
+          environment:
+            T_MAX: ${{ secrets.T_MAX }}
+          when: on_success
+
+      - run:
+          name: Use secret T_MIN
+          command: echo $T_MIN
+          environment:
+            T_MIN: ${{ secrets.T_MIN }}
+          when: on_success
+
+      - run:
+          name: Use secret HOST
+          command: echo $HOST
+          environment:
+            HOST: ${{ secrets.HOST }}
+          when: on_success
+
+      - run:
+          name: Use secret DATABASE
+          command: echo $DATABASE
+          environment:
+            DATABASE: ${{ secrets.DATABASE }}
+          when: on_success
+      - run:
           name: Create network
           command: docker network create postgres_network
       - run:
