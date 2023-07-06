@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run --rm app pipenv run pytest ./src:/usr/src/app/src
+            docker-compose run --rm app pipenv run pytest test/test.py 
           when: on_success
 
       - run:
