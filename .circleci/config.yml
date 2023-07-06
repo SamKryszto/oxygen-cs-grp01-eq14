@@ -11,11 +11,14 @@ jobs:
           name: Create network
           command: docker network create postgres_network
       - run:
-          name: Run tests
+          name: build test and run
+          command: |
+            docker buildx build -t oxygen-tests -f Dockerfile.tests . --output type=docker --rm
+            docker rmi oxygen-tests
+      - run:
+          name: build container
           command: |
             docker-compose up -d --build
-            docker-compose exec app pytest
-          when: on_success
       - run:
           name: Stop container if tests fail
           command: docker-compose down
