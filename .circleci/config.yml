@@ -13,7 +13,7 @@ jobs:
       - run:
           name: build test and run
           command: |
-            docker buildx build -t oxygen-tests -f Dockerfile.tests . --output type=docker --rm
+            docker build -t oxygen-tests:latest -f Dockerfile.tests .
             docker rmi oxygen-tests
       - run:
           name: build container
