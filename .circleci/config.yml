@@ -11,29 +11,26 @@ jobs:
           name: Upgrade pip
           command: |
             pip install --upgrade pip
+
       - run:
-          name: Install pylint and black
+          name: Clean up containers and images
           command: |
-            pip install pylint black
-
-      - run:
-          name: Run pylint locally
-          command: pylint src --rcfile=.pylintrc
-
-      - run:
-          name: Run black locally
-          command: black src --check
+            docker-compose down --volumes --remove-orphans
+            docker system prune --all --force --volumes
 
       - run:
           name: Create network
           command: docker network create postgres_network
 
       - run:
-          name: Build and test
+          name: Build container
+          command: docker-compose build
+          when: on_success
+
+      - run:
+          name: Run tests
           command: |
-            docker build -t oxygen-tests:latest -f Dockerfile.tests .
-            docker-compose down
-            docker rmi oxygen-tests
+            docker-compose up -d && docker-compose exec app pytest
           when: on_success
 
       - run:
@@ -42,8 +39,15 @@ jobs:
           when: on_fail
 
       - run:
-          name: Build container
-          command: docker-compose up -d --build
+          name: Install pylint and black
+          command: |
+            pip install pylint black
+
+      - run:
+          name: Run pylint and black
+          command: |
+            pylint src --rcfile=.pylintrc
+            black src --check
           when: on_success
 
       - run:
