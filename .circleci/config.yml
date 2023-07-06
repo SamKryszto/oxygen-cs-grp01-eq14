@@ -11,21 +11,23 @@ jobs:
           name: Create network
           command: docker network create postgres_network
       - run:
-          name: build test and run
+          name: Run tests
           command: |
-            docker build -t oxygen-tests:latest -f Dockerfile.tests .
-            docker-compose down
-            docker rmi oxygen-tests
+            docker-compose up -d --build
+            docker-compose exec app pytest
+          when: on_success
       - run:
           name: Stop container if tests fail
           command: docker-compose down
           when: on_fail
       - run:
-          name: build container
-          command: docker-compose up -d --build
-      - run:
           name: Run static code analysis
-          command: docker-compose exec app pylint --rcfile=.pylintrc test.py
+          command: |
+            # Get the service name from the last container built
+            service_name=$(docker-compose ps -q | tail -1 | xargs docker inspect -f '{{ .Name }}' | sed 's/^.//')
+
+            # Run pylint on the specified service
+            docker-compose exec $service_name pylint --rcfile=.pylintrc test.py
           when: on_success
       - run:
           name: Format code with Black
