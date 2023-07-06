@@ -7,5 +7,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN pipenv install --dev
+RUN pipenv run pip install pytest
+
 
 CMD ["pytest", "test.py"]
