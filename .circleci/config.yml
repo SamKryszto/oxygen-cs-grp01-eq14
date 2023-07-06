@@ -118,7 +118,18 @@ jobs:
 
             # Get the image ID for the service
             image_id=$(docker-compose images -q)
+             # Get the build number
+            build_number=${CIRCLE_BUILD_NUM:-local}
 
+            # Tag the image with the repository and tag
+            if [ "$build_number" = "local" ]; then
+              # Use "latest" tag for local builds
+              docker tag $image_id $oxygen_repo:latest
+            else
+              # Use build number as the tag for non-local builds
+              docker tag $image_id $oxygen_repo:$build_number
+              docker tag $image_id $oxygen_repo:latest
+            fi
             # Tag the image with the repository and tag
             docker tag $image_id $oxygen_repo:$oxygen_tag
 
