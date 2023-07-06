@@ -8,6 +8,10 @@ jobs:
       - setup_remote_docker:
           version: 20.10.7
       - run:
+          name: Upgrade pip
+          command: |
+            pip install --upgrade pip
+      - run:
           name: Install pylint and black
           command: |
             pip install pylint black
