@@ -12,11 +12,11 @@ jobs:
 
       - run:
           name: Run pylint locally
-          command: pylint .
+          command: pylint src
 
       - run:
           name: Run black locally
-          command: black . --check
+          command: black src --check
 
       - run:
           name: Create network
