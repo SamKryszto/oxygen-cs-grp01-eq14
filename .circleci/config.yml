@@ -11,79 +11,6 @@ jobs:
           name: Upgrade pip
           command: |
             pip install --upgrade pip
-
-      - run:
-          name: Clean up containers and images
-          command: |
-            docker-compose down --volumes --remove-orphans
-            docker system prune --all --force --volumes
-            
-      - run:
-          name: Use secret TOKEN
-          command: echo $TOKEN
-          environment:
-            TOKEN: ${{ secrets.TOKEN }}
-          when: on_success
-
-      - run:
-          name: Use secret T_MAX
-          command: echo $T_MAX
-          environment:
-            T_MAX: ${{ secrets.T_MAX }}
-          when: on_success
-
-      - run:
-          name: Use secret T_MIN
-          command: echo $T_MIN
-          environment:
-            T_MIN: ${{ secrets.T_MIN }}
-          when: on_success
-
-      - run:
-          name: Use secret HOST
-          command: echo $HOST
-          environment:
-            HOST: ${{ secrets.HOST }}
-          when: on_success
-
-      - run:
-          name: Use secret DATABASE
-          command: echo $DATABASE
-          environment:
-            DATABASE: ${{ secrets.DATABASE }}
-          when: on_success
-
-      # - run:
-      #     name: Create network
-      #     command: docker network create postgres_network
-          
-      - run:
-          name: Pull Metrics database image
-          command: |
-            docker pull samkryszto/postgres:latest
-
-      - run:
-          name: View images
-          command: |
-            docker images      
-        
-      - run:
-          name: Run Metrics database image
-          command: |
-            docker run samkryszto/postgres:latest \
-            -e POSTGRES_USER=postgres \
-            -e POSTGRES_PASSWORD=postgres \
-            -e PGUSER=postgres
-
-      - run:
-          name: Check if TOKEN is set
-          command: |
-            if [ -z "$TOKEN" ]; then
-              echo "ERROR: TOKEN environment variable is not set."
-              exit 1
-            else
-              echo "TOKEN is set: $TOKEN"
-            fi
           
       - run:
           name: Build container
@@ -131,32 +58,6 @@ jobs:
           command: |
             pylint src --rcfile=.pylintrc
             black src --check
-          when: on_success
-
-      - run:
-          name: Execute main.py
-          command: docker-compose run --rm -e TOKEN="${TOKEN}" app pipenv run start
-          environment:
-            TOKEN: ${{ secrets.TOKEN }}
-            DATABASE: ${{ secrets.DATABASE }}
-            HOST: ${{ secrets.HOST }}
-            TICKETS: ${{ secrets.TICKETS }}
-            T_MIN: ${{ secrets.T_MIN }}
-            T_MAX: ${{ secrets.T_MAX }}
-          when: on_success
-
-      - run:
-          name: Use secret
-          command: echo $DOCKERHUB_ID
-          environment:
-            MY_SECRET_VARIABLE: ${{ secrets.DOCKERHUB_ID }}
-          when: on_success
-
-      - run:
-          name: Use secret
-          command: echo $DOCKERHUB_PWD
-          environment:
-            MY_SECRET_VARIABLE: ${{ secrets.DOCKERHUB_PWD }}
           when: on_success
 
       - run:
