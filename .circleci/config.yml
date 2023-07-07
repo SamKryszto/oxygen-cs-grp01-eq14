@@ -65,6 +65,9 @@ jobs:
           when: on_success
 
       - run:
+          name: List Docker images
+          command: docker images
+      - run:
           name: Deploy to Docker Hub
           command: |
             echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_ID" --password-stdin
