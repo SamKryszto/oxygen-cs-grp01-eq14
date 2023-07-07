@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-             docker-compose run --rm -e TOKEN="${TOKEN}" app pipenv run pytest
+             docker-compose run -e TOKEN="${TOKEN}" app pipenv run pytest
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}
@@ -75,6 +75,8 @@ jobs:
 
             # Get the image ID for the service
             image_id=$(docker-compose images -q)
+            echo $image_id
+            
             # Get the build number
             build_number=${CIRCLE_BUILD_NUM:-local}
 
