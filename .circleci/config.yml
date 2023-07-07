@@ -53,23 +53,22 @@ jobs:
             DATABASE: ${{ secrets.DATABASE }}
           when: on_success
 
-      - run:
-          name: Create network
-          command: docker network create postgres_network
+      # - run:
+      #     name: Create network
+      #     command: docker network create postgres_network
           
       - run:
-          name: Pull Metrics images
+          name: Pull Metrics database image
           command: |
-            docker pull samkryszto/metrics-app:latest
-            docker pull samkryszto/pgadmin:latest
             docker pull samkryszto/postgres:latest
         
       - run:
-          name: Run Metrics containers
+          name: Run Metrics database image
           command: |
-            docker run samkryszto/metrics-app:latest
-            docker run samkryszto/pgadmin:latest
-            docker run samkryszto/postgres:latest
+            docker run samkryszto/postgres:latest \
+            -e POSTGRES_USER=postgres \
+            -e POSTGRES_PASSWORD=postgres \
+            -e PGUSER=postgres
 
       - run:
           name: Check if TOKEN is set
