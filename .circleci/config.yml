@@ -52,9 +52,11 @@ jobs:
           environment:
             DATABASE: ${{ secrets.DATABASE }}
           when: on_success
+
       - run:
           name: Create network
           command: docker network create postgres_network
+          
       - run:
           name: Build container
           command: docker-compose build
