@@ -4,12 +4,12 @@ from src.main import Main, Event
 
 
 # pylint: disable=protected-access
+@patch.dict(
+    "src.main.os.environ",
+    {"TOKEN": "TOKEN"},
+    clear=True,
+)
 class TestMain(unittest.TestCase):
-    @patch.dict(
-        "src.main.os.environ",
-        {"TOKEN": "TOKEN"},
-        clear=True,
-    )
     def test_env_default_values(self):
         main = Main()
         self.assertEqual(main.HOST, "http://34.95.34.5")
@@ -19,6 +19,7 @@ class TestMain(unittest.TestCase):
 
     @patch.dict(
         "src.main.os.environ",
+        {},
         clear=True,
     )
     def test_env_no_token(self):
