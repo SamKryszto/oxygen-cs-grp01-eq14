@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run --rm app pipenv run pytest test/test.py 
+            docker-compose run --rm app pipenv run pytest
           when: on_success
 
       - run:
@@ -91,7 +91,7 @@ jobs:
 
       - run:
           name: Execute main.py
-          command: docker-compose run --rm app pipenv run start 
+          command: docker-compose run --rm app pipenv run start
           when: on_success
 
       - run:
