@@ -22,7 +22,7 @@ jobs:
           name: Use secret TOKEN
           command: echo $TOKEN
           environment:
-            token: ${{ secrets.TOKEN }}
+            TOKEN: ${{ secrets.TOKEN }}
           when: on_success
 
       - run:
