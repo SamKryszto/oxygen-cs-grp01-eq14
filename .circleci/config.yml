@@ -7,6 +7,10 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.18
+          
+      - run:
+          name: Create network
+          command: docker network create postgres_network
       - run:
           name: Upgrade pip
           command: |
