@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 requests = "*"
 signalrcore = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
 
 [dev-packages]
 pylint = "*"
@@ -18,3 +20,4 @@ python_version = "3.8"
 
 [scripts]
 start = "python -m src.main"
+pytest = "pytest test/test.py"
