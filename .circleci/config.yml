@@ -1,0 +1,107 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.18
+          
+      - run:
+          name: Create network
+          command: docker network create postgres_network
+      - run:
+          name: Upgrade pip
+          command: |
+            pip install --upgrade pip
+          
+      - run:
+          name: Build container
+          command: docker-compose build
+          environment:
+              TOKEN: ${{ secrets.TOKEN }}
+              DATABASE: ${{ secrets.DATABASE }}
+              HOST: ${{ secrets.HOST }}
+              TICKETS: ${{ secrets.TICKETS }}
+              T_MIN: ${{ secrets.T_MIN }}
+              T_MAX: ${{ secrets.T_MAX }}
+          when: on_success
+
+      - run:
+          name: Install dependencies
+          command: |
+            docker-compose run --rm app pipenv install --dev
+          when: on_success
+
+      - run:
+          name: Run tests
+          command: |
+             docker-compose run -e TOKEN="${TOKEN}" app pipenv run pytest
+          environment:
+            TOKEN: ${{ secrets.TOKEN }}
+            DATABASE: ${{ secrets.DATABASE }}
+            HOST: ${{ secrets.HOST }}
+            TICKETS: ${{ secrets.TICKETS }}
+            T_MIN: ${{ secrets.T_MIN }}
+            T_MAX: ${{ secrets.T_MAX }}
+          when: on_success
+
+      - run:
+          name: Stop container if tests fail
+          command: docker-compose down
+          when: on_fail
+
+      - run:
+          name: Install pylint and black
+          command: |
+            pip install pylint black
+
+      - run:
+          name: Run pylint and black
+          command: |
+            pylint src --rcfile=.pylintrc
+            black src --check
+          when: on_success
+
+      - run:
+          name: List Docker images
+          command: docker-compose images -q
+      - run:
+          name: Deploy to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_ID" --password-stdin
+
+            # Define the repository name and tag
+            oxygen_repo="samkryszto/oxygen"
+            oxygen_tag="latest"
+
+            # Get the image ID for the service
+            image_id=$(docker images --format '{{.ID}}' | head -n1)
+            echo $image_id
+            
+            # Get the build number
+            build_number=${CIRCLE_BUILD_NUM:-local}
+
+            # Tag the image with the repository and tag
+            if [ "$build_number" = "local" ]; then
+              # Use "latest" tag for local builds
+              docker tag $image_id $oxygen_repo:latest
+            else
+              # Use build number as the tag for non-local builds
+              docker tag $image_id $oxygen_repo:$build_number
+              docker tag $image_id $oxygen_repo:$oxygen_tag
+            fi
+
+            # Push the tagged image to Docker Hub
+            docker push $oxygen_repo:$oxygen_tag
+          when: on_success
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main

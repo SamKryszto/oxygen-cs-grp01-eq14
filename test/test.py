@@ -5,6 +5,15 @@ from src.main import Main, Event
 
 # pylint: disable=protected-access
 class TestMain(unittest.TestCase):
+    def test_env_all_setted(self):
+        main = Main()
+        self.assertNotEqual(main.HOST, None)
+        self.assertNotEqual(main.TOKEN, None)
+        self.assertNotEqual(main.TICKETS, None)
+        self.assertNotEqual(main.T_MAX, None)
+        self.assertNotEqual(main.T_MIN, None)
+        self.assertNotEqual(main.DATABASE, None)
+
     @patch.dict(
         "src.main.os.environ",
         {"TOKEN": "TOKEN"},
@@ -19,6 +28,7 @@ class TestMain(unittest.TestCase):
 
     @patch.dict(
         "src.main.os.environ",
+        {},
         clear=True,
     )
     def test_env_no_token(self):
@@ -26,6 +36,11 @@ class TestMain(unittest.TestCase):
             main = Main()
         self.assertEqual("No token defined", str(cm.exception))
 
+    @patch.dict(
+        "src.main.os.environ",
+        {"TOKEN": "TOKEN"},
+        clear=True,
+    )
     def test_send_event_to_database_valid_input(self):
         session = MagicMock()
         main = Main()
@@ -38,6 +53,11 @@ class TestMain(unittest.TestCase):
         self.assertEqual(session.add.call_args[0][0].event, "event")
         session.commit.assert_called_once()
 
+    @patch.dict(
+        "src.main.os.environ",
+        {"TOKEN": "TOKEN"},
+        clear=True,
+    )
     def test_send_event_to_database_with_exception(self):
         session = MagicMock()
         main = Main()
