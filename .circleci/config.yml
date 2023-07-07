@@ -17,6 +17,11 @@ jobs:
           command: |
             docker-compose down --volumes --remove-orphans
             docker system prune --all --force --volumes
+            
+      - run:
+          name: View images
+          command: |
+            docker images
 
       - run:
           name: Use secret TOKEN
