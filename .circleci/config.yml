@@ -70,6 +70,13 @@ jobs:
           name: Run tests
           command: |
             docker-compose run --rm app pipenv run pytest
+          environment:
+              TOKEN: ${{ secrets.TOKEN }}
+              DATABASE: ${{ secrets.DATABASE }}
+              HOST: ${{ secrets.HOST }}
+              TICKETS: ${{ secrets.TICKETS }}
+              T_MIN: ${{ secrets.T_MIN }}
+              T_MAX: ${{ secrets.T_MAX }}
           when: on_success
 
       - run:
