@@ -77,7 +77,7 @@ jobs:
             oxygen_tag="latest"
 
             # Get the image ID for the service
-            image_id=$(docker-compose images --quiet | head -n1 | xargs docker inspect --format='{{.Id}}') echo $first_image_id
+            image_id=$(docker images --format '{{.ID}}' | head -n1)
             echo $image_id
             
             # Get the build number
