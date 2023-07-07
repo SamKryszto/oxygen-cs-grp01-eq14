@@ -56,6 +56,15 @@ jobs:
       - run:
           name: Create network
           command: docker network create postgres_network
+      - run:
+          name: Check if TOKEN is set
+          command: |
+            if [ -z "$TOKEN" ]; then
+              echo "ERROR: TOKEN environment variable is not set."
+              exit 1
+            else
+              echo "TOKEN is set: $TOKEN"
+            fi
           
       - run:
           name: Build container
