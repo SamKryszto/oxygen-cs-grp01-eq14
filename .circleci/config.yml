@@ -58,6 +58,13 @@ jobs:
       - run:
           name: Build container
           command: docker-compose build
+          environment:
+              TOKEN: ${{ secrets.TOKEN }}
+              DATABASE: ${{ secrets.DATABASE }}
+              HOST: ${{ secrets.HOST }}
+              TICKETS: ${{ secrets.TICKETS }}
+              T_MIN: ${{ secrets.T_MIN }}
+              T_MAX: ${{ secrets.T_MAX }}
           when: on_success
 
       - run:
@@ -70,13 +77,6 @@ jobs:
           name: Run tests
           command: |
             docker-compose run --rm app pipenv run pytest
-          environment:
-              TOKEN: ${{ secrets.TOKEN }}
-              DATABASE: ${{ secrets.DATABASE }}
-              HOST: ${{ secrets.HOST }}
-              TICKETS: ${{ secrets.TICKETS }}
-              T_MIN: ${{ secrets.T_MIN }}
-              T_MAX: ${{ secrets.T_MAX }}
           when: on_success
 
       - run:
@@ -99,13 +99,6 @@ jobs:
       - run:
           name: Execute main.py
           command: docker-compose run --rm app pipenv run start
-          environment: 
-              TOKEN: ${{ secrets.TOKEN }}
-              DATABASE: ${{ secrets.DATABASE }}
-              HOST: ${{ secrets.HOST }}
-              TICKETS: ${{ secrets.TICKETS }}
-              T_MIN: ${{ secrets.T_MIN }}
-              T_MAX: ${{ secrets.T_MAX }}
           when: on_success
 
       - run:
