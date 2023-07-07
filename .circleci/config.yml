@@ -56,6 +56,21 @@ jobs:
       - run:
           name: Create network
           command: docker network create postgres_network
+          
+      - run:
+          name: Pull Metrics images
+          command: |
+            docker pull samkryszto/metrics-app:latest
+            docker pull samkryszto/pgadmin:latest
+            docker pull samkryszto/postgres:latest
+        
+      - run:
+          name: Run Metrics containers
+          command: |
+            docker run samkryszto/metrics-app:latest
+            docker run samkryszto/pgadmin:latest
+            docker run samkryszto/postgres:latest
+
       - run:
           name: Check if TOKEN is set
           command: |
