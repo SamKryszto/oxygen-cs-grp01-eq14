@@ -19,7 +19,7 @@ jobs:
             docker system prune --all --force --volumes
 
       - run:
-          name: Use secret API_TOKEN
+          name: Use secret TOKEN
           command: echo $TOKEN
           environment:
             token: ${{ secrets.TOKEN }}
