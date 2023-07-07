@@ -87,7 +87,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run --rm app pipenv run pytest
+             docker-compose run --rm -e TOKEN="${TOKEN}" app pipenv run pytest
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}
