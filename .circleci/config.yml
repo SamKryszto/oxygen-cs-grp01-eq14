@@ -19,11 +19,6 @@ jobs:
             docker system prune --all --force --volumes
             
       - run:
-          name: View images
-          command: |
-            docker images
-
-      - run:
           name: Use secret TOKEN
           command: echo $TOKEN
           environment:
@@ -66,6 +61,11 @@ jobs:
           name: Pull Metrics database image
           command: |
             docker pull samkryszto/postgres:latest
+
+      - run:
+          name: View images
+          command: |
+            docker images      
         
       - run:
           name: Run Metrics database image
