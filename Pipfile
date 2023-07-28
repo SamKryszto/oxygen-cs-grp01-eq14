@@ -16,7 +16,7 @@ pre-commit = "*"
 pytest = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.11"
 
 [scripts]
 start = "python -m src.main"
