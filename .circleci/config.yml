@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.8
+      - image: circleci/python:3.11
     steps:
       - checkout
       - setup_remote_docker:
@@ -73,7 +73,7 @@ jobs:
             echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_ID" --password-stdin
 
             # Define the repository name and tag
-            oxygen_repo="samkryszto/oxygen"
+            oxygen_repo="amiryousef25/oxygen"
             oxygen_tag="latest"
 
             # Get the image ID for the service
@@ -104,4 +104,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: main
+              only: docker-image-size-reduction
