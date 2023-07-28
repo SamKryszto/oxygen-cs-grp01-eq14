@@ -73,7 +73,7 @@ jobs:
             echo "$DOCKERHUB_PWD" | docker login -u "$DOCKERHUB_ID" --password-stdin
 
             # Define the repository name and tag
-            oxygen_repo="amiryousef25/oxygen"
+            oxygen_repo="samkryszto/oxygen"
             oxygen_tag="latest"
 
             # Get the image ID for the service
