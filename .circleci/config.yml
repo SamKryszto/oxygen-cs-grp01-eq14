@@ -29,15 +29,9 @@ jobs:
           when: on_success
 
       - run:
-          name: Install dependencies
-          command: |
-            docker-compose run --rm app pip install -r requirements-dev.txt 
-          when: on_success
-
-      - run:
           name: Run tests
           command: |
-             docker-compose run -e TOKEN="${TOKEN}" app pytest test/test.py
+            docker-compose run -e TOKEN="${TOKEN}" app pip install -r requirements-dev.txt && python -m pytest test/test.py
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}
