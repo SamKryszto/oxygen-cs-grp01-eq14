@@ -31,13 +31,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            docker-compose run --rm app pipenv install --dev
+            docker-compose run --rm app pip install -r requirements-dev.txt 
           when: on_success
 
       - run:
           name: Run tests
           command: |
-             docker-compose run -e TOKEN="${TOKEN}" app pipenv run pytest
+             docker-compose run -e TOKEN="${TOKEN}" app pytest test/test.py
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}
