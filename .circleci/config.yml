@@ -32,6 +32,12 @@ jobs:
           name: List pip packages
           command: |
             cat requirements-dev.txt
+          when: on_success
+      
+      - run:
+          name: List pip packages
+          command: |
+            cat requirements-dev.txt
             docker-compose run app pip install -r requirements-dev.txt && pip list
           when: on_success
 
