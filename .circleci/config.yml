@@ -27,27 +27,7 @@ jobs:
               T_MIN: ${{ secrets.T_MIN }}
               T_MAX: ${{ secrets.T_MAX }}
           when: on_success
-
-      - run:
-          name: Show requirements-dev.txt
-          command: |
-            cat requirements-dev.txt
-          when: on_success
-
-      - run:
-          name: List pip packages
-          command: |
-            pip list
-          when: on_success
       
-      - run:
-          name: List pip packages
-          command: |
-            cat requirements-dev.txt
-            docker-compose run app pip install -r requirements-dev.txt
-            docker-compose run app pip list
-          when: on_success
-
       - run:
           name: Run tests
           command: |
