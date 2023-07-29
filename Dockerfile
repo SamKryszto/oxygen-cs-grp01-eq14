@@ -1,11 +1,9 @@
-FROM python:3.8-slim-buster
-
-RUN pip install pipenv
+FROM python:3.8-alpine
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN pipenv install --dev
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "pipenv", "run", "start" ]
+CMD ["python", "-m", "src.main"]
