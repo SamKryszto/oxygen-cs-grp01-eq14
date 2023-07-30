@@ -98,4 +98,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: docker-image-size-reduction
+              only: main
