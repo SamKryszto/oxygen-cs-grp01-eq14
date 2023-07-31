@@ -90,6 +90,33 @@ jobs:
             # Push the tagged image to Docker Hub
             docker push $oxygen_repo:$oxygen_tag
           when: on_success
+    
+  deploy:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.24
+
+      # Install kubectl
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x kubectl
+            sudo mv kubectl /usr/local/bin/
+
+      # Authenticate with Kubernetes cluster (Assuming you have the kubeconfig file in your repository)
+      - run:
+          name: Authenticate with Kubernetes
+          command: echo "$KUBECONFIG" > $HOME/.kube/config
+
+      # Add your deployment steps using kubectl
+      - run:
+          name: Apply Kubernetes Deployment
+          command: |
+            kubectl apply -f /path/to/your/kubernetes/deployment.yaml
 
 workflows:
   version: 2
@@ -99,3 +126,10 @@ workflows:
           filters:
             branches:
               only: kubernetes-deployment
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+             only: kubernetes-deployment
+      
