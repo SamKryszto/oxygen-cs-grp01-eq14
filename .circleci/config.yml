@@ -7,7 +7,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.24
-          
+
       - run:
           name: Create network
           command: docker network create postgres_network
@@ -15,7 +15,7 @@ jobs:
           name: Upgrade pip
           command: |
             pip install --upgrade pip
-          
+
       - run:
           name: Build container
           command: docker-compose build
@@ -27,7 +27,7 @@ jobs:
               T_MIN: ${{ secrets.T_MIN }}
               T_MAX: ${{ secrets.T_MAX }}
           when: on_success
-      
+
       - run:
           name: Run tests
           command: |
@@ -73,7 +73,7 @@ jobs:
             # Get the image ID for the service
             image_id=$(docker images --format '{{.ID}}' | head -n1)
             echo $image_id
-            
+
             # Get the build number
             build_number=${CIRCLE_BUILD_NUM:-local}
 
@@ -98,4 +98,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: main
+              only: kubernetes-deployment
