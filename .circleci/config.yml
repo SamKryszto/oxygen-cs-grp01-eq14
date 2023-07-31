@@ -2,11 +2,11 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.11
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.18
+          version: 20.10.24
           
       - run:
           name: Create network
@@ -27,17 +27,11 @@ jobs:
               T_MIN: ${{ secrets.T_MIN }}
               T_MAX: ${{ secrets.T_MAX }}
           when: on_success
-
-      - run:
-          name: Install dependencies
-          command: |
-            docker-compose run --rm app pipenv install --dev
-          when: on_success
-
+      
       - run:
           name: Run tests
           command: |
-             docker-compose run -e TOKEN="${TOKEN}" app pipenv run pytest
+            docker-compose run -e TOKEN="${TOKEN}" app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}

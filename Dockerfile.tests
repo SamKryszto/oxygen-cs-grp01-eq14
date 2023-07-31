@@ -1,4 +1,4 @@
-FROM python:3.8 AS development
+FROM python:3.11 AS development
 
 RUN pip install pipenv
 
