@@ -119,7 +119,7 @@ jobs:
         - run:
             name: Deploy to Kubernetes
             command: |
-              kubectl apply -f /path/to/your/k8s/deployment.yaml
+              kubectl apply -f /home/circleci/project/deployment.yaml
               # Additional kubectl commands for deployments, service updates, etc.
 
 
