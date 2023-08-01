@@ -29,7 +29,7 @@ spec:
             - name: T_MAX
               value: ${T_MAX}
           ports:
-            - containerPort: 8000  # Replace with your application's exposed port
+            - containerPort: 8000  # /Replace with your application's exposed port
           resources:
             limits:
               cpu: "500m"  # CPU limit set to 500 milliCPU
