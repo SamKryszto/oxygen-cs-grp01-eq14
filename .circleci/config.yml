@@ -126,13 +126,6 @@ jobs:
               kubectl apply -f deployment.yaml
               # Additional kubectl commands for deployments, service updates, etc.
 
-        # Apply the Service configuration
-        - run:
-            name: Create Kubernetes Service
-            command: |
-              cd /home/circleci/project
-              ls
-              kubectl apply -f service.yaml
 
 workflows:
   version: 2
