@@ -119,6 +119,7 @@ jobs:
             name: Apply Secrets
             command: |
               export KUBECONFIG=/home/circleci/.kube/config
+              kubectl delete secret my-secrets
               # Set up the Kubernetes Secret using CircleCI secrets as environment variables
               echo "Creating my-secrets in grp1-team14-namespace"
               kubectl create secret generic my-secrets \
