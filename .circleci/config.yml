@@ -99,4 +99,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: send-temperature-to-db
+              only: main
