@@ -119,19 +119,15 @@ jobs:
             name: Check if secret exists
             command: |
               export KUBECONFIG=/home/circleci/.kube/config
-              kubectl expose deployment oxygen-deployment
-              if kubectl get secret my-secrets -n grp1-team14; then
-                echo "Secret my-secrets already exists. Skipping creation."
-              else
-                echo "Secret my-secrets does not exist. Creating..."
-                kubectl create secret generic my-secrets \
-                  --from-literal=token="$TOKEN" \
-                  --from-literal=database="$DATABASE" \
-                  --from-literal=host="$HOST" \
-                  --from-literal=tickets="$TICKETS" \
-                  --from-literal=t-min="$T_MIN" \
-                  --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
-              fi
+
+              kubectl create secret generic my-secrets \
+                --from-literal=token="$TOKEN" \
+                --from-literal=database="$DATABASE" \
+                --from-literal=host="$HOST" \
+                --from-literal=tickets="$TICKETS" \
+                --from-literal=t-min="$T_MIN" \
+                --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
+         
               env:
                 TOKEN: ${{ secrets.TOKEN }}
                 DATABASE: ${{ secrets.DATABASE }}
