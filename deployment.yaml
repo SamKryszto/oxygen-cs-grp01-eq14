@@ -15,19 +15,37 @@ spec:
       containers:
         - name: oxygen-container
           image: samkryszto/oxygen:latest
-          env:
+            env:
             - name: TOKEN
-              value: ${TOKEN}
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: token
             - name: DATABASE
-              value: ${DATABASE}
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: database
             - name: HOST
-              value: ${HOST}
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: host
             - name: TICKETS
-              value: ${TICKETS}
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: tickets
             - name: T_MIN
-              value: ${T_MIN}
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: t-min
             - name: T_MAX
-              value: ${T_MAX}
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: t-max
           ports:
             - containerPort: 8000  # /Replace with your application's exposed port
           resources:
