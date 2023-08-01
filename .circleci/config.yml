@@ -90,8 +90,8 @@ jobs:
             # Push the tagged image to Docker Hub
             docker push $oxygen_repo:$oxygen_tag
           when: on_success
-    
-    
+
+
   deploy:
       docker:
         - image: cimg/python:3.11
@@ -122,6 +122,11 @@ jobs:
               kubectl apply -f /home/circleci/project/deployment.yaml
               # Additional kubectl commands for deployments, service updates, etc.
 
+        # Apply the Service configuration
+        - run:
+            name: Create Kubernetes Service
+            command: |
+              kubectl apply -f /home/circleci/project/service.yaml
 
 workflows:
   version: 2
@@ -137,4 +142,3 @@ workflows:
           filters:
             branches:
              only: kubernetes-deployment
-      
