@@ -120,17 +120,17 @@ jobs:
             command: |
               export KUBECONFIG=/home/circleci/.kube/config
               kubectl create secret generic my-secrets \
-                --from-literal=token="$TOKEN" \
-                --from-literal=database="$DATABASE" \
-                --from-literal=host="$HOST" \
-                --from-literal=tickets="$TICKETS" \
-                --from-literal=t-min="$T_MIN" \
-                --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
+                --from-literal=token="${{ secrets.TOKEN }}" \
+                --from-literal=database="${{ secrets.DATABASE }}" \
+                --from-literal=host="${{ secrets.HOST }}" \
+                --from-literal=tickets="${{ secrets.TICKETS }}" \
+                --from-literal=t-min="${{ secrets.T_MIN }}" \
+                --from-literal=t-max="${{ secrets.T_MAX }}" -n grp1-team14-namespace
             environment:
               TOKEN: ${{ secrets.TOKEN }}
               DATABASE: ${{ secrets.DATABASE }}
               HOST: ${{ secrets.HOST }}
-              TICKETS: 10 #${{ secrets.TICKETS }}
+              TICKETS: ${{ secrets.TICKETS }}
               T_MIN: ${{ secrets.T_MIN }}
               T_MAX: ${{ secrets.T_MAX }}
 
