@@ -14,8 +14,6 @@ services:
       T_MAX: ${T_MAX}
       T_MIN: ${T_MIN}
       DATABASE: ${DATABASE}
-    volumes:
-      - "./test:/usr/src/app/test"
 
 networks:
   network:
