@@ -100,9 +100,6 @@ jobs:
         - setup_remote_docker:
             version: 20.10.24
 
-        # Other build steps go here (e.g., linting, testing, etc.)
-        # ...
-
         - run:
             name: Install kubectl
             command: |
@@ -119,7 +116,14 @@ jobs:
         - run:
             name: Deploy to Kubernetes
             command: |
-              kubectl apply -f /home/circleci/project/deployment.yaml
+              # Set the KUBECONFIG environment variable to the config file path
+              export KUBECONFIG=/home/circleci/.kube/config
+
+              # Make sure you are in the correct directory (where deployment.yaml is located)
+              cd /home/circleci/project
+
+              # Use kubectl to apply the deployment.yaml file
+              kubectl apply -f deployment.yaml
               # Additional kubectl commands for deployments, service updates, etc.
 
         # Apply the Service configuration
