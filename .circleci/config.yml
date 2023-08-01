@@ -32,14 +32,15 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run -e TOKEN="${TOKEN}" --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
-          environment:
-            TOKEN: ${{ secrets.TOKEN }}
-            DATABASE: ${{ secrets.DATABASE }}
-            HOST: ${{ secrets.HOST }}
-            TICKETS: ${{ secrets.TICKETS }}
-            T_MIN: ${{ secrets.T_MIN }}
-            T_MAX: ${{ secrets.T_MAX }}
+            # docker-compose run -e TOKEN="${TOKEN}" --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
+            docker-compose run --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
+          # environment:
+          #   TOKEN: ${{ secrets.TOKEN }}
+          #   DATABASE: ${{ secrets.DATABASE }}
+          #   HOST: ${{ secrets.HOST }}
+          #   TICKETS: ${{ secrets.TICKETS }}
+          #   T_MIN: ${{ secrets.T_MIN }}
+          #   T_MAX: ${{ secrets.T_MAX }}
           when: on_success
 
       - run:
