@@ -2,3 +2,4 @@ requests
 signalrcore
 sqlalchemy
 psycopg2-binary
+python-dateutil

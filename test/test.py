@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock, ANY
-from src.main import Main, Event
+from datetime import datetime
+from src.main import Main, Event, Temperature
 
 
 # pylint: disable=protected-access
@@ -45,12 +46,12 @@ class TestMain(unittest.TestCase):
         session = MagicMock()
         main = Main()
         main._session = session
-        main.send_event_to_database("timestamp", "event")
+        main.send_event_to_database("2023-08-01T01:23:17.625271+00:00", "event")
         session.add.assert_called_once()
         # call_args[0][0] is first parameter of first call
         self.assertIsInstance(session.add.call_args[0][0], Event)
-        self.assertEqual(session.add.call_args[0][0].timestamp, "timestamp")
-        self.assertEqual(session.add.call_args[0][0].event, "event")
+        self.assertIsInstance(session.add.call_args[0][0].timestamp, datetime)
+        self.assertIsInstance(session.add.call_args[0][0].event, str)
         session.commit.assert_called_once()
 
     @patch.dict(
@@ -66,6 +67,37 @@ class TestMain(unittest.TestCase):
         with self.assertRaises(Exception) as cm:
             main.send_event_to_database(ANY, ANY)
         self.assertEqual("Error sending event to database", str(cm.exception))
+
+    @patch.dict(
+        "src.main.os.environ",
+        {"TOKEN": "TOKEN"},
+        clear=True,
+    )
+    def test_send_temperature_to_fastapi_valid_input(self):
+        session = MagicMock()
+        main = Main()
+        main._session = session
+        main.send_temperature_to_fastapi("2023-08-01T01:23:17.625271+00:00", 10.0)
+        session.add.assert_called_once()
+        # call_args[0][0] is first parameter of first call
+        self.assertIsInstance(session.add.call_args[0][0], Temperature)
+        self.assertIsInstance(session.add.call_args[0][0].date, datetime)
+        self.assertIsInstance(session.add.call_args[0][0].temperature, float)
+        session.commit.assert_called_once()
+
+    @patch.dict(
+        "src.main.os.environ",
+        {"TOKEN": "TOKEN"},
+        clear=True,
+    )
+    def test_send_temperature_to_fastapi_with_exception(self):
+        session = MagicMock()
+        main = Main()
+        main._session = session
+        session.add.side_effect = Exception()
+        with self.assertRaises(Exception) as cm:
+            main.send_temperature_to_fastapi(ANY, ANY)
+        self.assertEqual("Error sending temperature to database", str(cm.exception))
 
 
 if __name__ == "__main__":

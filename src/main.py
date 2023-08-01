@@ -4,7 +4,8 @@ import time
 import os
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 import requests
-from src.models import create_session, Event
+from dateutil import parser
+from src.models import create_session, Event, Temperature
 
 
 class Main:
@@ -83,17 +84,24 @@ class Main:
         print(details)
 
     def send_temperature_to_fastapi(self, date, dp):
-        pass
+        try:
+            _temperature = Temperature(
+                date=parser.parse(date),
+                temperature=dp,
+            )
+            self._session.add(_temperature)
+            self._session.commit()
+        except Exception as e:
+            raise Exception("Error sending temperature to database") from e
 
     def send_event_to_database(self, timestamp, event):
         try:
             _event = Event(
-                timestamp=timestamp,
+                timestamp=parser.parse(timestamp),
                 event=event,
             )
             self._session.add(_event)
             self._session.commit()
-        # except requests.exceptions.RequestException as e:
         except Exception as e:
             raise Exception("Error sending event to database") from e
 
