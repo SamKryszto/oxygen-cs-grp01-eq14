@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run --verbose --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
+            docker-compose run -e TOKEN="${TOKEN}" --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}
