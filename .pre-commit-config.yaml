@@ -20,7 +20,8 @@ repos:
   hooks:
   - id: run-unit-tests
     name: Run Unit Tests
-    entry: "docker buildx build -t oxygen-tests -f Dockerfile.tests . --output type=docker --rm"
+    # entry: "docker buildx build -t oxygen-tests -f Dockerfile.tests . --output type=docker --rm"
+    entry: "docker compose run --rm app sh -c \"pip install -r requirements-dev.txt && pytest test/test.py\""
     language: system
     pass_filenames: false
     types: [python]
