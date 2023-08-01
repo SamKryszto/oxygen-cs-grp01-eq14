@@ -114,7 +114,7 @@ jobs:
               mv /home/circleci/project/.kube/kubeconfig /home/circleci/.kube/config
 
         - run:
-            name: Deploy to Kubernetes
+            name: create service
             command: |
               # Set the KUBECONFIG environment variable to the config file path
               export KUBECONFIG=/home/circleci/.kube/config
@@ -123,7 +123,7 @@ jobs:
               cd /home/circleci/project
 
               # Use kubectl to apply the deployment.yaml file
-              kubectl apply -f deployment.yaml
+              kubectl apply -f service.yaml
               # Additional kubectl commands for deployments, service updates, etc.
 
         - run:
@@ -136,8 +136,10 @@ jobs:
               cd /home/circleci/project
 
               # Use kubectl to apply the deployment.yaml file
-              kubectl apply -f service.yaml
+              kubectl apply -f deployment.yaml
               # Additional kubectl commands for deployments, service updates, etc.
+
+       
 
 
 workflows:
