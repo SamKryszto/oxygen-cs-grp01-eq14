@@ -1,22 +1,33 @@
-# deployment.yaml
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: oxygen-deployment
 spec:
-              replicas: 3
-              selector:
-                matchLabels:
-                  app: oxygen-app
-              template:
-                metadata:
-                  labels:
-                    app: oxygen-app
-                spec:
-                  containers:
-                    - name: oxygen-container
-                      image: samkryszto/oxygen:latest
-                      ports:
-                        - containerPort: 8000
-                      # Add other container configuration as needed
+  replicas: 1  # Number of replicas (pods) for high availability
+  selector:
+    matchLabels:
+      app: oxygen-app
+  template:
+    metadata:
+      labels:
+        app: oxygen-app
+    spec:
+      containers:
+        - name: oxygen-container
+          image: samkryszto/oxygen:latest
+          env:
+            - name: TOKEN
+              value: ${{ secrets.TOKEN }}
+            - name: DATABASE
+              value: ${{ secrets.DATABASE }}
+            - name: HOST
+              value: ${{ secrets.HOST }}
+            - name: TICKETS
+              value: ${{ secrets.TICKETS }}
+            - name: T_MIN
+              value: ${{ secrets.T_MIN }}
+            - name: T_MAX
+              value: ${{ secrets.T_MAX }}
+          ports:
+            - containerPort: 8000  # Replace with your application's exposed port
+      # Add other specifications like volumes, resource limits, etc. if needed
