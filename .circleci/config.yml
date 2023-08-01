@@ -127,10 +127,10 @@ jobs:
                 --from-literal=t-min="$T_MIN" \
                 --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
             environment:
-              TOKEN: 10 #${{ secrets.TOKEN }}
+              TOKEN: ${{ secrets.TOKEN }}
               DATABASE: ${{ secrets.DATABASE }}
               HOST: ${{ secrets.HOST }}
-              TICKETS: ${{ secrets.TICKETS }}
+              TICKETS: 10 #${{ secrets.TICKETS }}
               T_MIN: ${{ secrets.T_MIN }}
               T_MAX: ${{ secrets.T_MAX }}
 
