@@ -17,17 +17,17 @@ spec:
           image: samkryszto/oxygen:latest
           env:
             - name: TOKEN
-              value: ${{ secrets.TOKEN }}
+              value: ${TOKEN}
             - name: DATABASE
-              value: ${{ secrets.DATABASE }}
+              value: ${DATABASE}
             - name: HOST
-              value: ${{ secrets.HOST }}
+              value: ${HOST}
             - name: TICKETS
-              value: ${{ secrets.TICKETS }}
+              value: ${TICKETS}
             - name: T_MIN
-              value: ${{ secrets.T_MIN }}
+              value: ${T_MIN}
             - name: T_MAX
-              value: ${{ secrets.T_MAX }}
+              value: ${T_MAX}
           ports:
             - containerPort: 8000  # Replace with your application's exposed port
           resources:
