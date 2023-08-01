@@ -130,7 +130,7 @@ jobs:
         - run:
             name: Create Kubernetes Service
             command: |
-              kubectl apply -f /home/circleci/project/service.yaml
+              kubectl apply -f service.yaml
 
 workflows:
   version: 2
