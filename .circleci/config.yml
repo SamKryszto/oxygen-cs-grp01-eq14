@@ -20,19 +20,19 @@ jobs:
       - run:
           name: Build container
           command: docker-compose build
-          environment:
-              TOKEN: ${{ secrets.TOKEN }}
-              DATABASE: ${{ secrets.DATABASE }}
-              HOST: ${{ secrets.HOST }}
-              TICKETS: ${{ secrets.TICKETS }}
-              T_MIN: ${{ secrets.T_MIN }}
-              T_MAX: ${{ secrets.T_MAX }}
+          # environment:
+          #     TOKEN: ${{ secrets.TOKEN }}
+          #     DATABASE: ${{ secrets.DATABASE }}
+          #     HOST: ${{ secrets.HOST }}
+          #     TICKETS: ${{ secrets.TICKETS }}
+          #     T_MIN: ${{ secrets.T_MIN }}
+          #     T_MAX: ${{ secrets.T_MAX }}
           when: on_success
 
       - run:
           name: Run tests
           command: |
-            docker-compose run --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
+            docker-compose run --verbose --rm app sh -c "pip install -r requirements-dev.txt && pytest test/test.py"
           environment:
             TOKEN: ${{ secrets.TOKEN }}
             DATABASE: ${{ secrets.DATABASE }}
