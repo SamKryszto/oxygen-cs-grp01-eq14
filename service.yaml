@@ -4,7 +4,7 @@ metadata:
   name: oxygen-service
 spec:
   selector:
-    app: oxygen-app
+    app.kubernetes.io/name: oxygen-app
   ports:
     - protocol: TCP
       port: 80
