@@ -125,7 +125,7 @@ jobs:
                 --from-literal=host="$HOST" \
                 --from-literal=tickets="$TICKETS" \
                 --from-literal=t-min="$T_MIN" \
-                --from-literal=t-max="$T_MAX" -n grp1-team14
+                --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
             environment:
               TOKEN: ${{ secrets.TOKEN }}
               DATABASE: ${{ secrets.DATABASE }}
