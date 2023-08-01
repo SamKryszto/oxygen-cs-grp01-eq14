@@ -30,8 +30,7 @@ spec:
               value: ${{ secrets.T_MAX }}
           ports:
             - containerPort: 8000  # Replace with your application's exposed port
-      # Add other specifications like volumes, resource limits, etc. if needed
-           resources:
+          resources:
             limits:
               cpu: "500m"  # CPU limit set to 500 milliCPU
               memory: "500Mi"  # Memory limit set to 500 MiB
