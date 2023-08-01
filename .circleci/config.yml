@@ -139,10 +139,10 @@ workflows:
       - build:
           filters:
             branches:
-              only: kubernetes-deployment
+              only: main
       - deploy:
-          requires:
-            - build
+         # requires:
+            #- build
           filters:
             branches:
              only: kubernetes-deployment
