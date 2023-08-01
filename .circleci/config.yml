@@ -125,15 +125,14 @@ jobs:
                 --from-literal=host="$HOST" \
                 --from-literal=tickets="$TICKETS" \
                 --from-literal=t-min="$T_MIN" \
-                --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
-         
-              env:
-                TOKEN: ${{ secrets.TOKEN }}
-                DATABASE: ${{ secrets.DATABASE }}
-                HOST: ${{ secrets.HOST }}
-                TICKETS: ${{ secrets.TICKETS }}
-                T_MIN: ${{ secrets.T_MIN }}
-                T_MAX: ${{ secrets.T_MAX }}
+                --from-literal=t-max="$T_MAX" -n grp1-team14
+            environment:
+              TOKEN: ${{ secrets.TOKEN }}
+              DATABASE: ${{ secrets.DATABASE }}
+              HOST: ${{ secrets.HOST }}
+              TICKETS: ${{ secrets.TICKETS }}
+              T_MIN: ${{ secrets.T_MIN }}
+              T_MAX: ${{ secrets.T_MAX }}
 
         - run:
             name: Deploy to Kubernetes
