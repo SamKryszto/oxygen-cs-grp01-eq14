@@ -121,6 +121,10 @@ jobs:
             command: |
               kubectl apply -f /home/circleci/project/deployment.yaml
               # Additional kubectl commands for deployments, service updates, etc.
+              
+        - run:
+            name: Get Kubernetes resources
+            command: kubectl get all
 
 
 workflows:
