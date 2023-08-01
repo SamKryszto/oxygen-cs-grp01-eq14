@@ -133,7 +133,7 @@ workflows:
       - build:
           filters:
             branches:
-              only: main
+              only: kubernetes-deployment
       - deploy:
           requires:
             - build
