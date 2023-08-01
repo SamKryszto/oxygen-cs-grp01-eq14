@@ -116,16 +116,17 @@ jobs:
         # Create Kubernetes Secrets from CircleCI Secrets 
        # Step to check if the secret already exists
         - run:
-            name: Check if secret exists
+            name: apply secrets
             command: |
               export KUBECONFIG=/home/circleci/.kube/config
               kubectl create secret generic my-secrets \
-                --from-literal=token="${{ secrets.TOKEN }}" \
-                --from-literal=database="${{ secrets.DATABASE }}" \
-                --from-literal=host="${{ secrets.HOST }}" \
-                --from-literal=tickets="${{ secrets.TICKETS }}" \
-                --from-literal=t-min="${{ secrets.T_MIN }}" \
-                --from-literal=t-max="${{ secrets.T_MAX }}" -n grp1-team14-namespace
+                --from-literal=token="$TOKEN" \
+                --from-literal=database="$DATABASE" \
+                --from-literal=host="$HOST" \
+                --from-literal=tickets="$TICKETS" \
+                --from-literal=t-min="$T_MIN" \
+                --from-literal=t-max="$T_MAX" -n grp1-team14-namespace
+
             environment:
               TOKEN: ${{ secrets.TOKEN }}
               DATABASE: ${{ secrets.DATABASE }}
