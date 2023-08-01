@@ -118,6 +118,7 @@ jobs:
             name: Create Kubernetes Secrets
             command: |
               export KUBECONFIG=/home/circleci/.kube/config
+              kubectl delete secret my-secrets -n grp1-team14
               kubectl create secret generic my-secrets \
                 --from-literal=token="$TOKEN" \
                 --from-literal=database="$DATABASE" \
