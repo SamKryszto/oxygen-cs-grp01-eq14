@@ -119,7 +119,7 @@ jobs:
             name: Check if secret exists
             command: |
               export KUBECONFIG=/home/circleci/.kube/config
-              kubectl expose oxygen-deployment
+              kubectl expose deployment oxygen-deployment
               if kubectl get secret my-secrets -n grp1-team14; then
                 echo "Secret my-secrets already exists. Skipping creation."
               else
