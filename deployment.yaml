@@ -31,17 +31,3 @@ spec:
           ports:
             - containerPort: 8000  # Replace with your application's exposed port
       # Add other specifications like volumes, resource limits, etc. if needed
-
-
-apiVersion: apps/v1
-kind: Service
-metadata:
-  name: oxygen-service
-spec:
-  selector:
-    app: oxygen-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8000
-  type: LoadBalancer
