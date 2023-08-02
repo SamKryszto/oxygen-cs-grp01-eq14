@@ -50,8 +50,8 @@ spec:
             - containerPort: 8000  # /Replace with your application's exposed port
           resources:
             limits:
-              cpu: "500m"  # CPU limit set to 500 milliCPU
-              memory: "500Mi"  # Memory limit set to 500 MiB
+              cpu: "100m"  # CPU limit set to 500 milliCPU
+              memory: "100Mi"  # Memory limit set to 500 MiB
             requests:
-              cpu: "100m"  # Minimum CPU request set to 100 milliCPU
-              memory: "100Mi"  # Minimum memory request set to 100 MiB
+              cpu: "0m"  # Minimum CPU request set to 100 milliCPU
+              memory: "0Mi"  # Minimum memory request set to 100 MiB
