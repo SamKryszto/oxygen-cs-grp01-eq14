@@ -113,7 +113,7 @@ jobs:
               mkdir -p /home/circleci/.kube
               mv /home/circleci/project/.kube/kubeconfig /home/circleci/.kube/config
 
-        # Create Kubernetes Secrets from CircleCI Secrets 
+        # Create Kubernetes Secrets from CircleCI Secrets
         - run:
             name: Apply Secrets
             command: |
@@ -154,8 +154,8 @@ workflows:
             branches:
               only: main
       - deploy:
-         # requires:
-            #- build
+          requires:
+            - build
           filters:
             branches:
-             only: kubernetes-deployment
+             only: main
