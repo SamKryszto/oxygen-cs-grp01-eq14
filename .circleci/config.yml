@@ -114,7 +114,6 @@ jobs:
               mv /home/circleci/project/.kube/kubeconfig /home/circleci/.kube/config
 
         # Create Kubernetes Secrets from CircleCI Secrets 
-       # Step to check if the secret already exists
         - run:
             name: Apply Secrets
             command: |
